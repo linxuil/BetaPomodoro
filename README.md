@@ -33,7 +33,7 @@ After downloading, extract the contents of the ZIP file to access the repository
 Try use python script via cmd without install:
 ```bash
 $ cd pomow
-$ pomow
+$ ./pomow
 ```
 ### 3.2. PIP module istall
 You can install via `pip` in venv:
@@ -52,7 +52,7 @@ source venv/bin/activate
 $ pip install -e .
 
 # Try use console command
-$ <!prj_name!> <!...!>
+$ pomow
 ```
 Then you need exit from venv
 ```

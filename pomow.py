@@ -53,7 +53,7 @@ class TimerApp:
         self.draw_timer()
         self.master.after(1000, self.update_timer)
 
-
-root = tk.Tk()
-app = TimerApp(root)
-root.mainloop()
+def main(): 
+    root = tk.Tk()
+    app = TimerApp(root)
+    root.mainloop()
