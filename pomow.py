@@ -12,6 +12,7 @@ class TimerApp:
         self.is_paused = True
         self.master.title("Pomodoro Timer")
         self.create_widgets()
+        self.bind_hotkeys()
 
     def create_widgets(self):
         self.canvas = tk.Canvas(self.master, width=400, height=400, bg='white')
@@ -21,8 +22,22 @@ class TimerApp:
         self.start_button.pack(side=tk.LEFT)
         self.pause_button = tk.Button(self.master, text="Pause", command=self.pause_timer)
         self.pause_button.pack(side=tk.LEFT)
-        self.reset_button = tk.Button(self.master, text="Reset", command=self.reset_timer)
+        self.reset_button = tk.Button(self.master, text="Reset", command=self.reset_and_stop_timer)
         self.reset_button.pack(side=tk.LEFT)
+
+    def bind_hotkeys(self):
+        self.master.bind("<space>", self.space_key)
+        self.master.bind("<Return>", self.reset_and_stop_timer)
+        self.master.bind("<Escape>", self.minimize_window)
+
+    def space_key(self, event):
+        if self.is_paused:
+            self.start_timer()
+        else:
+            self.pause_timer()
+
+    def minimize_window(self, event):
+        self.master.iconify()
 
     def draw_timer(self):
         self.canvas.delete("all")
@@ -40,7 +55,8 @@ class TimerApp:
         if not self.is_paused:
             self.is_paused = True
 
-    def reset_timer(self):
+    def reset_and_stop_timer(self, event=None):
+        self.is_paused = True
         self.time_left = 25 * 60
         self.draw_timer()
 
