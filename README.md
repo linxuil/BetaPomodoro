@@ -17,8 +17,10 @@ To download the repository, you have a few options
 If you have Git installed on your system, you can clone the repository using\
 the following command in your terminal or command prompt:
 ```bash
-$ REPO_URL='https://github.com/linxuil/pomow.git&&\
-git clone "${REPO_URL}" 'pomow'
+  # Clone repo via SSH
+$ REPO_URL='git@github.com:linxuil/pomow.git'&&\
+GOAL_DIR_NAME='pomow'&&\
+git clone "${REPO_URL}" "${GOAL_DIR_NAME}"
 ```
 This will create a local copy of the repository on your machine.
 
@@ -48,8 +50,9 @@ $ VENV_DIR_NAME='venv'&&\
 python3 -m venv "${VENV_DIR_NAME}"&&\
 source venv/bin/activate
 
-# Install module
+# Install module and check it
 $ pip install -e .
+$ pip list | grep pomow
 
 # Try use console command
 $ pomow
@@ -58,7 +61,10 @@ Then you need exit from venv
 ```
 $ deactivate
 ```
-
+Uninstall packet via `pip` in venv:
+```
+$ pip uninstall pomow
+```
 <!-- CONTRIBUTING -->
 ## 4. Contributing
 
@@ -84,3 +90,4 @@ Distributed under the MIT License. See `LICENSE.md` for more information.
 linxuil - linxuil.g@gmail.com
 
 Project Link: [https://github.com/linxuil/pomow](https://github.com/linxuil/pomow)
+
