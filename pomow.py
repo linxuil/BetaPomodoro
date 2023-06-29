@@ -19,7 +19,7 @@ class TimerApp:
         self.is_paused = True
         self.sound1_interval = 1  # seconds
         self.sound2_interval = 5 * 60  # seconds
-        self.master.title("Pomodoro Timer")
+        self.master.title("PomodoroWawe Timer")
         self.create_widgets()
         self.bind_hotkeys()
 
@@ -39,6 +39,17 @@ class TimerApp:
         self.reset_button = tk.Button(button_frame, text="Reset",
                                       command=self.reset_and_stop_timer)
         self.reset_button.pack(side=tk.LEFT)
+
+        pomodoro_time_frame = tk.Frame(self.master)
+        pomodoro_time_frame.pack()
+
+        self.pomodoro_time_entry = tk.Entry(pomodoro_time_frame, width=5)
+        self.pomodoro_time_entry.insert(0, self.time_left // 60)
+        self.pomodoro_time_entry.pack(side=tk.LEFT)
+        self.pomodoro_apply_button = tk.Button(pomodoro_time_frame, 
+                                               text="Set Pomodoro time",
+                                               command=self.set_pomodoro_time)
+        self.pomodoro_apply_button.pack(side=tk.LEFT)
 
         sound_frame = tk.Frame(self.master)
         sound_frame.pack()
@@ -74,15 +85,16 @@ class TimerApp:
         self.canvas.delete("all")
         x, y, r = 200, 200, 150
         self.canvas.create_oval(x-r, y-r, x+r, y+r)
-        text = "{}:{:02}".format(self.time_left // 60, self.time_left % 60)
-        self.canvas.create_text(x, y, text=text, font=("Helvetica", 36))
+        minutes, seconds = divmod(self.time_left, 60)
+        self.canvas.create_text(x, y, text=f"{minutes:02}:{seconds:02}",
+                                font=("Helvetica", 36), fill='black')
 
     def start_timer(self):
         if self.is_paused:
             self.is_paused = False
-            self.master.after(0, self.update_timer)
-            self.master.after(0, self.play_sound2)
-            self.master.after(self.sound1_interval * 1000, self.play_sound1)
+        self.master.after(1000, self.update_timer)
+        self.master.after(self.sound1_interval * 1000, self.play_sound1)
+        self.master.after(1000, self.play_sound2)
 
     def pause_timer(self):
         if not self.is_paused:
@@ -121,6 +133,16 @@ class TimerApp:
             if new_sound1_interval > 0 and new_sound2_interval > 0:
                 self.sound1_interval = new_sound1_interval
                 self.sound2_interval = new_sound2_interval
+        except ValueError:
+            pass  # ignore invalid input
+
+    # Configure pomodoro time interval in minutes
+    def set_pomodoro_time(self):
+        try:
+            new_pomodoro_time = int(self.pomodoro_time_entry.get()) * 60
+            if new_pomodoro_time > 0:
+                self.time_left = new_pomodoro_time
+                self.draw_timer()
         except ValueError:
             pass  # ignore invalid input
 
