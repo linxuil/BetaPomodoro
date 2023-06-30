@@ -10,6 +10,11 @@ However, this timer is designed to launch quickly.
 The ticking sound of a clock helps me stay focused and keep track of time,\
 especially when I get distracted.
 
+The timer looks like below:
+<p align="center">
+    <img width="700" src="src/screenshot.png" alt="Logo">
+</p>
+
 ## 2. Downloading the Repository
 To download the repository, you have a few options
 
