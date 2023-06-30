@@ -19,6 +19,11 @@ class TimerApp:
         self.is_paused = True
         self.sound1_interval = 1  # seconds
         self.sound2_interval = 5 * 60  # seconds
+        
+        # IDs for play sound Process
+        self.sound1_id = None
+        self.sound2_id = None
+
         self.master.title("PomodoroWawe Timer")
         self.create_widgets()
         self.bind_hotkeys()
@@ -93,23 +98,42 @@ class TimerApp:
         if self.is_paused:
             self.is_paused = False
         self.master.after(1000, self.update_timer)
-        self.master.after(self.sound1_interval * 1000, self.play_sound1)
-        self.master.after(1000, self.play_sound2)
+        self.sound1_id = self.master.after(self.sound1_interval * 1000, self.play_sound1)
+        self.sound2_id = self.master.after(1000, self.play_sound2)
 
     def pause_timer(self):
         if not self.is_paused:
             self.is_paused = True
 
+    def stop_sounds(self):
+        if self.sound1_id is not None:
+            self.master.after_cancel(self.sound1_id)
+            self.sound1_id = None
+        if self.sound2_id is not None:
+            self.master.after_cancel(self.sound2_id)
+            self.sound2_id = None
+
     def reset_and_stop_timer(self, event=None):
         self.pause_timer()
         self.time_left = 25 * 60
         self.draw_timer()
+        self.stop_sounds()
+
+        # Reset sound process IDs
+        if self.sound1_id is not None:
+            self.master.after_cancel(self.sound1_id)
+            self.sound1_id = None
+        if self.sound2_id is not None:
+            self.master.after_cancel(self.sound2_id)
+            self.sound2_id = None
 
     def update_timer(self):
         if not self.is_paused and self.time_left > 0:
             self.time_left -= 1
             self.draw_timer()
             self.master.after(1000, self.update_timer)
+        else:  # When time ends
+            self.reset_and_stop_timer()
 
     def play_sound(self, filename: str):
         wave_obj = sa.WaveObject.from_wave_file(filename)
@@ -118,13 +142,13 @@ class TimerApp:
     def play_sound1(self):
         if not self.is_paused:
             self.play_sound(tick_file_path)
-            self.master.after(self.sound1_interval * 1000, self.play_sound1)
+            self.sound1_id = self.master.after(self.sound1_interval * 1000, self.play_sound1)
 
     def play_sound2(self):
-        if self.time_left % self.sound2_interval == 0:
+        if (not self.is_paused) and (self.time_left % self.sound2_interval == 0):
             self.play_sound(bang_file_path)
         if not self.is_paused:
-            self.master.after(1000, self.play_sound2)
+            self.sound2_id = self.master.after(1000, self.play_sound2)
 
     def apply_intervals(self):
         try:
