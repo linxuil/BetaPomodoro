@@ -15,7 +15,8 @@ bang_file_path = pkg_path + '/src/bang.wav'
 class TimerApp:
     def __init__(self, master: tk.Tk):
         self.master = master
-        self.time_left = 25 * 60
+        self.cycle_time = 25 * 60
+        self.time_left = self.cycle_time
         self.is_paused = True
         self.sound1_interval = 1  # seconds
         self.sound2_interval = 5 * 60  # seconds
@@ -115,7 +116,7 @@ class TimerApp:
 
     def reset_and_stop_timer(self, event=None):
         self.pause_timer()
-        self.time_left = 25 * 60
+        self.time_left = self.cycle_time
         self.draw_timer()
         self.stop_sounds()
 
@@ -165,7 +166,8 @@ class TimerApp:
         try:
             new_pomodoro_time = int(self.pomodoro_time_entry.get()) * 60
             if new_pomodoro_time > 0:
-                self.time_left = new_pomodoro_time
+                self.cycle_time = new_pomodoro_time
+                self.time_left = self.cycle_time
                 self.draw_timer()
         except ValueError:
             pass  # ignore invalid input
