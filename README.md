@@ -35,14 +35,43 @@ Simply navigate to the repository's page here and click on the "Code" button.\
 Then select "Download ZIP" to save the ZIP file to your computer.\
 After downloading, extract the contents of the ZIP file to access the repository files.
 
-## 3. Usage
-### 3.1. Without install module
+
+## 3. Requirements
+Installation or verification of two packages is required:
+- Tkinter for the GUI
+- Simpleaudio for audio playback. Documentation for Simpleaudio installation:
+https://simpleaudio.readthedocs.io/en/latest/installation.html
+
+
+### 3.1. Ubuntu
+Tested on Ubuntu 23.10:
+```bash
+$ sudo apt-get install python3-tk
+
+$ sudo apt-get install python3-pip
+$ pip install --upgrade pip setuptools --break-system-packages
+$ sudo apt-get install -y python3-dev libasound2-dev
+$ pip install simpleaudio --break-system-packages
+```
+
+### 3.2. Windows
+To install Simpleaudio, you must first install the C++ Build Tools from the following link:
+https://visualstudio.microsoft.com/ru/visual-cpp-build-tools/
+
+After downloading the Visual Studio Installer `vs_BuildTools.exe`, open it and select only the C/C++ checkbox.
+
+```powershell
+> pip install simpleaudio
+```
+
+## 4. Usage
+### 4.1. Without install module
 Try use python script via cmd without install:
 ```bash
 $ cd pomow
 $ ./pomow
 ```
-### 3.2. PIP module istall
+### 4.2. PIP module istall
 You can install via `pip` in venv:
 ```bash
 $ cd pomow
@@ -63,15 +92,34 @@ $ pip list | grep pomow
 $ pomow
 ```
 Then you need exit from venv
-```
+```bash
 $ deactivate
 ```
 Uninstall packet via `pip` in venv:
-```
+```bash
 $ pip uninstall pomow
 ```
+
+## 5. Create *.EXE file for Windows
+You can create an EXE file on Windows using PyInstaller by following these steps:
+
+- Add the following code at the end of the `pomow.py` file:
+```python
+
+if __name__ == "__main__":
+    main()
+```
+
+- Build the EXE file using the following PowerShell commands:
+```powershell
+> cd <!pomow_src_root_dir!>
+
+> python -m PyInstaller --onefile --windowed --debug=all --add-data="src/*:src" pomow.py
+```
+Afterwards, navigate to the `<!pomow_src_root_dir!>/dist` directory to find the newly created `pomow.exe`
+
 <!-- CONTRIBUTING -->
-## 4. Contributing
+## 6. Contributing
 
 If you have a suggestion that would make this better,\
 please fork the repo and create a pull request.\
@@ -86,13 +134,12 @@ Don't forget to give the project a star! Thanks again!
 6. Push to the Branch (`git push origin feature/YouFeature`)
 7. Open a Pull Request on github
 
-## 5. License
+## 7. License
 
 Distributed under the MIT License. See `LICENSE.md` for more information.
 
-## 6. Contact
+## 8. Contact
 
-linxuil - linxuil.g@gmail.com
+voiduin - voiduin@gmail.com
 
-Project Link: [https://github.com/linxuil/pomow](https://github.com/linxuil/pomow)
-
+Project Link: [https://github.com/voiduin/pomow](https://github.com/voiduin/pomow)
