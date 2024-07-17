@@ -58,7 +58,10 @@ $ pip install simpleaudio --break-system-packages
 To install Simpleaudio, you must first install the C++ Build Tools from the following link:
 https://visualstudio.microsoft.com/ru/visual-cpp-build-tools/
 
-After downloading the Visual Studio Installer `vs_BuildTools.exe`, open it and select only the C/C++ checkbox.
+After downloading the "Visual Studio Installer" `vs_BuildTools.exe`.\
+Open "Visual Studio Installer" and select only the C/C++ checkbox.
+
+After htis you can install simpleaudio without errors:
 
 ```powershell
 > pip install simpleaudio
